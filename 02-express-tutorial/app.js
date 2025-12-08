@@ -11,7 +11,7 @@ app.get("/api/v1/test", (req,res) => {
 });
 
 app.get("/api/v1/products", (req,res) => {
-    res.json({ message: "Look at our products!" });
+    res.json(products);
 
 });
 
@@ -37,7 +37,7 @@ app.get("/api/v1/query", (req, res) => {
 
     if (search) {
         filteredProducts = filteredProducts.filter((p) => {
-            return p.name.startsWith(search);
+            return p.name.toLowerCase().startsWith(search.toLowerCase());
         });
     }
 
