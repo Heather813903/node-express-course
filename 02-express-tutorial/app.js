@@ -1,9 +1,24 @@
 const express = require('express');
-const { products } = require("./data");
+const { products, people } = require("./data");
+const peopleRouter = require("./routes/people");
 
 const app = express();
+/*app.set("peopleData", people);
+*/
+const logger = (req, res, next) => {
+    console.log(req.method, req.url, new Date().toLocaleString());
+    next();
+};
 
-app.use(express.static("./public"));
+app.get('/', logger, (req, res) => {
+    res.send("Home page");
+});
+
+app.use(express.static("./methods-public"));
+app.use(express.urlencoded({ extended:false }));
+app.use(express.json());
+app.use("/api/v1/people", peopleRouter);
+
 
 app.get("/api/v1/test", (req,res) => {
     res.json({ message: "It worked!" });
@@ -14,6 +29,20 @@ app.get("/api/v1/products", (req,res) => {
     res.json(products);
 
 });
+
+/*app.get("/api/v1/people", (req, res) => {
+    res.json(people);
+});
+
+app.post("/api/v1/people" , (req, res) => {
+    
+    if (!req.body.name) {
+        return res.status(400).json({ success: false, message: "Please provide a name" });
+    }
+    people.push({ id:people.length + 1, name:req.body.name });
+    res.status(201).json({ success: true, name:req.body.name });    
+    res.json(people);
+});*/
 
 app.get("/api/v1/products/:productID", (req, res) => {
     const idToFind = parseInt(req.params.productID, 10);
