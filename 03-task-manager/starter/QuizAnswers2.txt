@@ -1,0 +1,12 @@
+1. The asynchWrapper was created so we don't have to write try/catch blocks every time.
+
+2.
+
+const getTask = asyncWrapper(async (req, res, next) => {  
+  const { id: taskID } = req.params;  
+  const task = await Task.findOne({ _id: taskID });  
+  if (!task) {  
+     return next(new CustomAPIError(`No task with id: ${taskID}`, 404));
+  }  
+  res.status(200).json({ task });  
+});  
