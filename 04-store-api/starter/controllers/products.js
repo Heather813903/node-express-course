@@ -45,13 +45,13 @@ filters = filters.split(',').forEach((item)=>{
 })
 
 }
-console.log(queryObject)
+
  let result = Product.find(queryObject);
  if (sort) {
     const sortList = sort.split(',' ).join(' ');
     result = result.sort(sortList)
  }else{
-    result = result.sort('createAt')
+    result = result.sort('createdAt')
  }
 
  if (fields){
